@@ -1,7 +1,7 @@
 # Replace these handles after pushing to your real GitHub organization.
-* @your-org/maintainers
+* @ilsl1007
 
-/backend/ @your-org/backend-team
-/frontend/ @your-org/frontend-team
-/.github/ @your-org/platform-team
+/backend/ @ilsl1007
+/frontend/ @ilsl1007
+/.github/ @ilsl1007
 
