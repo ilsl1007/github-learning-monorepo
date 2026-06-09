@@ -108,6 +108,32 @@ h1 {
   color: #374151;
 }
 
+.filters {
+  display: inline-grid;
+  grid-template-columns: repeat(3, minmax(92px, 1fr));
+  gap: 4px;
+  margin-bottom: 18px;
+  border: 1px solid #d8dee8;
+  border-radius: 8px;
+  padding: 4px;
+  background: #ffffff;
+}
+
+.filters button {
+  min-height: 36px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #4b5563;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.filters button.active {
+  background: #111827;
+  color: #ffffff;
+}
+
 .todo-list {
   display: grid;
   gap: 10px;
@@ -170,8 +196,13 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .filters {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
   .counter {
     min-width: 100%;
   }
 }
-

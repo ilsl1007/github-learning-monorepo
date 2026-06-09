@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/vue';
+import { fireEvent, render, screen, waitFor } from '@testing-library/vue';
 import App from './App.vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -45,5 +45,24 @@ describe('App', () => {
     expect(screen.getByText('Open a pull request')).toBeTruthy();
     expect(screen.getByText('1')).toBeTruthy();
   });
-});
 
+  it('filters todos by status', async () => {
+    render(App);
+
+    await waitFor(() => {
+      expect(screen.getByText('Create first GitHub issue')).toBeTruthy();
+    });
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Open' }));
+    expect(screen.getByText('Create first GitHub issue')).toBeTruthy();
+    expect(screen.queryByText('Open a pull request')).toBeNull();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Completed' }));
+    expect(screen.queryByText('Create first GitHub issue')).toBeNull();
+    expect(screen.getByText('Open a pull request')).toBeTruthy();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'All' }));
+    expect(screen.getByText('Create first GitHub issue')).toBeTruthy();
+    expect(screen.getByText('Open a pull request')).toBeTruthy();
+  });
+});
