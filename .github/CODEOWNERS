@@ -1,0 +1,7 @@
+# Replace these handles after pushing to your real GitHub organization.
+* @your-org/maintainers
+
+/backend/ @your-org/backend-team
+/frontend/ @your-org/frontend-team
+/.github/ @your-org/platform-team
+
