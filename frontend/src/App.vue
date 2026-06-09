@@ -4,10 +4,22 @@ import { createTodo, deleteTodo, fetchTodos, updateTodo, type Todo } from './api
 
 const todos = ref<Todo[]>([]);
 const title = ref('');
+const activeFilter = ref<'all' | 'open' | 'completed'>('all');
 const isLoading = ref(false);
 const errorMessage = ref('');
 
 const remainingCount = computed(() => todos.value.filter((todo) => !todo.completed).length);
+const filteredTodos = computed(() => {
+  if (activeFilter.value === 'open') {
+    return todos.value.filter((todo) => !todo.completed);
+  }
+
+  if (activeFilter.value === 'completed') {
+    return todos.value.filter((todo) => todo.completed);
+  }
+
+  return todos.value;
+});
 
 async function loadTodos() {
   isLoading.value = true;
@@ -63,11 +75,38 @@ onMounted(loadTodos);
       <button type="submit">Add</button>
     </form>
 
+    <div class="filters" aria-label="Todo filters">
+      <button
+        type="button"
+        :class="{ active: activeFilter === 'all' }"
+        :aria-pressed="activeFilter === 'all'"
+        @click="activeFilter = 'all'"
+      >
+        All
+      </button>
+      <button
+        type="button"
+        :class="{ active: activeFilter === 'open' }"
+        :aria-pressed="activeFilter === 'open'"
+        @click="activeFilter = 'open'"
+      >
+        Open
+      </button>
+      <button
+        type="button"
+        :class="{ active: activeFilter === 'completed' }"
+        :aria-pressed="activeFilter === 'completed'"
+        @click="activeFilter = 'completed'"
+      >
+        Completed
+      </button>
+    </div>
+
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     <p v-else-if="isLoading" class="loading">Loading todos...</p>
 
     <ul class="todo-list" aria-label="Todo list">
-      <li v-for="todo in todos" :key="todo.id" class="todo-item">
+      <li v-for="todo in filteredTodos" :key="todo.id" class="todo-item">
         <label>
           <input type="checkbox" :checked="todo.completed" @change="toggleTodo(todo)" />
           <span :class="{ completed: todo.completed }">{{ todo.title }}</span>
